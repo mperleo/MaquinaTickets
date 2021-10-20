@@ -1,7 +1,13 @@
-package MaquinaTickets;
+package main.java.MaquinaTickets;
+
+import java.net.URL;
 
 public class maquinaTickets {
 	public static void main(String args[]) {
+		
+		ClassLoader loader = Thread.currentThread().getContextClassLoader();
+		URL url = loader.getResource("log4j.properties");
+		
 		Tren tren;
 		menu menuMain = new menu();
 		boolean seguir = true;
@@ -53,14 +59,14 @@ public class maquinaTickets {
 					}
 					
 					break;
-					
+
 				case 3:
+					tren.imprimirTren();
+					break;
+
+				case 4:
 					seguir = false;
 					System.out.print("Fin del programa \n");
-					break;
-					
-				case 4:
-					tren.imprimirTren();
 					break;
 					
 				default:

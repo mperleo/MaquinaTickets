@@ -1,4 +1,4 @@
-package MaquinaTickets;
+package main.java.MaquinaTickets;
 import java.util.Scanner;
 
 public class menu {
@@ -30,8 +30,9 @@ public class menu {
 		
 		System.out.print("> 1. Primer asiento libre:  \n");
 		System.out.print("> 2. Asiento a elección  \n");
-		System.out.print("> 3. Salir del programa  \n");
-		System.out.print("> 4. Mostrar tren  \n");
+		System.out.print("> 3. Mostrar tren  \n");
+		System.out.print("> 4. Salir del programa  \n");
+
 		
 		opcion=sc.nextInt();
 		
