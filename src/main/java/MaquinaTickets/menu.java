@@ -1,7 +1,13 @@
 package main.java.MaquinaTickets;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class menu {
+	private static Logger logger = LogManager.getLogger(maquinaTickets.class);
+
 	public Scanner sc = new Scanner(System.in); //Se crea el lector
 	
 	public int[] menuInicioTren() {
@@ -21,7 +27,7 @@ public class menu {
 	}
 	
 	public int menuComprarBillete(int nSitiosLibres) {
-		int opcion;
+		int opcion = -1;
 		
 		System.out.print("\n··········· COMPRA DEL BILLETE: ··········· \n");
 		System.out.print("Indica una de las opciones: \n");
@@ -33,22 +39,31 @@ public class menu {
 		System.out.print("> 3. Mostrar tren  \n");
 		System.out.print("> 4. Salir del programa  \n");
 
-		
-		opcion=sc.nextInt();
+		try{
+			opcion=sc.nextInt();
+		}
+		catch (InputMismatchException e){
+			logger.error("El usuario ha indicado un tipo incorrecto");
+		}
+
 		
 		return opcion;
 	}
 	
 	public int[] pedirSitio() {
 		int datos[]= {0,0,0};
-		
-		System.out.print("> Indica el nº de vagon :  \n");
-		datos[0]=sc.nextInt();
-		System.out.print("\n> Indica el nº de fila n:  \n");
-		datos[1]=sc.nextInt();
-		System.out.print("\n> Indica el nº de columna:  \n");
-		datos[2]=sc.nextInt();
-		
+		try {
+			System.out.print("> Indica el nº de vagon :  \n");
+			datos[0] = sc.nextInt();
+			System.out.print("\n> Indica el nº de fila n:  \n");
+			datos[1] = sc.nextInt();
+			System.out.print("\n> Indica el nº de columna:  \n");
+			datos[2] = sc.nextInt();
+		}
+		catch (InputMismatchException e){
+			logger.error("El usuario ha indicado un tipo incorrecto");
+		}
+
 		return datos;
 	}
 	
