@@ -1,7 +1,7 @@
-package main.java.MaquinaTickets;
+package MaquinaTickets;
 
 import org.apache.log4j.PropertyConfigurator;
-
+import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -13,18 +13,26 @@ public class maquinaTickets {
 	
 	public static void main(String args[]) {
 
-		// fichero de logs
+		//fichero de logs
 		ClassLoader loader = Thread.currentThread().getContextClassLoader();
 		URL url = loader.getResource("log4j.properties");
+		
+	
 		PropertyConfigurator.configure(url);
+		
+		//BasicConfigurator.configure();
+		
 		
 		Tren tren;
 		menu menuMain = new menu();
 		boolean seguir = true;
 		
-		int datosTren[]= new int[3];
-		
-		datosTren = menuMain.menuInicioTren();
+		int datosTren[]=  {0,0,0};
+
+		// pido datos hasta que sean validos
+		do{
+			datosTren = menuMain.menuInicioTren();
+		}while(datosTren[0] ==0 || datosTren[1] == 0 || datosTren[2] == 0);
 		
 		tren = new Tren(datosTren[0],datosTren[1],datosTren[2]);
 		
@@ -62,17 +70,21 @@ public class maquinaTickets {
 					vagonSitio = datos2[0]-1;
 					filaSitio =datos2[1]-1;
 					columnaSitio = datos2[2]-1;
-					
-					if(tren.vagones[vagonSitio].sitioVacio(filaSitio, columnaSitio)== true) {
-						tren.vagones[vagonSitio].ocuparSitio(filaSitio, columnaSitio);
-						menuMain.mostrarTicket(vagonSitio, filaSitio, columnaSitio);
-
-						logger.info("Se ha comprado el billete del sitio: vagon["+vagonSitio+"], fila["+filaSitio+"] y columna["+columnaSitio+"]  correctamente, por el metodo de compra de sitio a eleccion");
-						tren.sitiosLibres = tren.sitiosLibres-1;
+					try {
+						if(tren.vagones[vagonSitio].sitioVacio(filaSitio, columnaSitio)== true) {
+							tren.vagones[vagonSitio].ocuparSitio(filaSitio, columnaSitio);
+							menuMain.mostrarTicket(vagonSitio, filaSitio, columnaSitio);
+	
+							logger.info("Se ha comprado el billete del sitio: vagon["+vagonSitio+"], fila["+filaSitio+"] y columna["+columnaSitio+"]  correctamente, por el metodo de compra de sitio a eleccion");
+							tren.sitiosLibres = tren.sitiosLibres-1;
+						}
+						else {
+							System.out.print("AVISO: El sitio esta ocupado  \n");
+							logger.warn("Se ha pedido el billete del sitio: vagon["+vagonSitio+"], fila["+filaSitio+"] y columna["+columnaSitio+"]  y esta ocupado");
+						}
 					}
-					else {
-						System.out.print("AVISO: El sitio esta ocupado  \n");
-						logger.warn("Se ha pedido el billete del sitio: vagon["+vagonSitio+"], fila["+filaSitio+"] y columna["+columnaSitio+"]  y esta ocupado");
+					catch(ArrayIndexOutOfBoundsException e) {
+						logger.error("el usuario ha indicado un sitio no valido en el tren, fuera de rango");
 					}
 					
 					break;

@@ -1,4 +1,4 @@
-package main.java.MaquinaTickets;
+package MaquinaTickets;
 
 public class Vagon {
 	
